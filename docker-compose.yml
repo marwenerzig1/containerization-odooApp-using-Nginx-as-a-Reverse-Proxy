@@ -1,0 +1,36 @@
+version: '3'
+services:
+  odoo:
+    image: odoo
+    ports:
+      - 8080:8069
+    depends_on:
+      - db
+    networks:
+      - odoo-network
+
+  db:
+    image: postgres:15
+    environment:
+      - POSTGRES_USER=odoo
+      - POSTGRES_PASSWORD=odoo
+      - POSTGRES_DB=postgres
+    networks:
+      - odoo-network
+
+  nginx:
+    image: nginx
+    ports:
+      - 80:80  # Map port 80 on the host to port 80 in the container
+    volumes:
+      - ./nginx/odoo.conf:/etc/nginx/conf.d/odoo.conf
+    depends_on:
+      - odoo
+    networks:
+      - odoo-network
+
+networks:
+  odoo-network:
+    driver: bridge
+
+
