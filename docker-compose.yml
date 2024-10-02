@@ -1,6 +1,6 @@
 version: '3'
 services:
-  odoo:
+  odoo: 
     image: odoo
     ports:
       - 8080:8069
@@ -28,7 +28,7 @@ services:
       - odoo
     networks:
       - odoo-network
-
+      
 networks:
   odoo-network:
     driver: bridge
